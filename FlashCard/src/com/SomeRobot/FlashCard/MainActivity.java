@@ -68,10 +68,9 @@ public class MainActivity extends FragmentActivity {
 			searchView.setIconifiedByDefault(false);
 		}
 
-		SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
 			public boolean onQueryTextSubmit(String query) {
-
 				setupEverything(query);
 				return true;
 
@@ -82,9 +81,18 @@ public class MainActivity extends FragmentActivity {
 				// do nothing
 				return true;
 			}
-		};
-		searchView.setOnQueryTextListener(queryTextListener);
+		});
 
+		searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+
+			@Override
+			public boolean onClose() {
+				setupEverything();
+				return false;
+			}
+			
+		});
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 
