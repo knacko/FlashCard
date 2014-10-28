@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -29,15 +30,15 @@ public class MainActivity extends FragmentActivity {
 	DatabaseHandler db;
 	CardManager cm;
 	DelayedViewPager vp;
-  
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		
+
 		mContext = this;
-		
+
 		boolean doesDatabaseExist = checkDatabase(this, "flashcard.db");		
 
 		db = new DatabaseHandler(mContext);		
@@ -50,7 +51,7 @@ public class MainActivity extends FragmentActivity {
 			Log.d("onCreate()", "Database does not exist.");
 			getDataThenSetup();				
 		}
-		
+
 	}
 
 	@Override
@@ -83,16 +84,26 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
-		searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+		MenuItem search = menu.findItem(R.id.action_search);
+
+		search.setOnActionExpandListener(new OnActionExpandListener()
+		{
 
 			@Override
-			public boolean onClose() {
+			public boolean onMenuItemActionCollapse(MenuItem item)
+			{  
 				setupEverything();
-				return false;
+				return true;
 			}
-			
+
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item)
+			{
+				// do nothing
+				return true;
+			}
 		});
-		
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -182,7 +193,7 @@ public class MainActivity extends FragmentActivity {
 	}	
 
 	public void displayError() {
-		
+
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				mContext);
 
@@ -210,9 +221,9 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void setupEverything(String s) {
-		
+
 		int num = cm.getCardStack(s).size();
-		
+
 		if (num == 0) {
 
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -231,21 +242,21 @@ public class MainActivity extends FragmentActivity {
 
 			alertDialog.show();		
 		}	else {
-			
+
 			String toast = "Found " + num + " cards.";
-			
+
 			Toast.makeText(getApplicationContext(), toast, 
-					   Toast.LENGTH_LONG).show();			
-			
+					Toast.LENGTH_LONG).show();			
+
 			loadAdapters();
 		}
 	}
 
 	private void loadAdapters() {
-		
+
 		DelayedViewPager pager = (DelayedViewPager)findViewById(R.id.viewPager);
 		pager.setVisibility(View.GONE);
-				
+
 		CardFragmentPagerAdapter pageAdapter = new CardFragmentPagerAdapter(getSupportFragmentManager(),cm);
 
 		pager.setPageTransformer(true, new ZoomOutPageTransformer());
