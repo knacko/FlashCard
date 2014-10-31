@@ -2,6 +2,7 @@ package com.SomeRobot.FlashCard;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -28,17 +29,17 @@ public class CardFragment extends Fragment {
 		return cf;
 
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.fragment_card, container, false);
 		final TextView q = (TextView) view.findViewById(R.id.question);
 		final TextView a = (TextView) view.findViewById(R.id.answer);
-
+		
 		String question = getArguments().getString(QUESTION);
 		String answer = getArguments().getString(ANSWER);
-
+		
 		q.setText(question);
 		a.setText(answer);
 
@@ -89,7 +90,8 @@ public class CardFragment extends Fragment {
 			}	
 
 		});
-		
+				 
 		return view;
 	}		
+
 }

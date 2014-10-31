@@ -9,5 +9,13 @@
      <item android:id="@+id/action_sync"
           android:icon="@drawable/ic_action_refresh"
           android:title="Sync"
-          android:showAsAction="always" />
+          android:showAsAction="ifRoom" />
+     <item android:id="@+id/action_database"
+          android:icon="@drawable/ic_action_storage"
+          android:title="Visit Database"
+          android:showAsAction="ifRoom" />
+     <item android:id="@+id/action_help"
+          android:icon="@drawable/ic_action_help"
+          android:title="Help"
+          android:showAsAction="ifRoom" />
 </menu>

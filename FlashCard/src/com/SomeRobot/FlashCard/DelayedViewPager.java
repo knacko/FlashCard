@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 
 public class DelayedViewPager extends ViewPager {
 
-	private long minTimeBetweenSwipes = 800; //in ms	
+	private long minTimeBetweenSwipes = 250; //in ms	
 	private long timeOfSettle = 0;
 
 	public DelayedViewPager(Context context) {
@@ -34,12 +34,11 @@ public class DelayedViewPager extends ViewPager {
 			@Override
 			public void onPageScrolled(int position, float positionOffset,
 					int positionOffsetPixels) {
-				//do nothing
+		
 			}
 
 			@Override
 			public void onPageSelected(int position) {
-				//do nothing
 			}
 		   
 		});

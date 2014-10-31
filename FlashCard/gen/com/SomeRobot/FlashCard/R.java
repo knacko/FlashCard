@@ -24,16 +24,20 @@ public final class R {
         public static final int cork=0x7f020000;
         public static final int corkrepeat=0x7f020001;
         public static final int highres=0x7f020002;
-        public static final int ic_action_refresh=0x7f020003;
-        public static final int ic_action_search=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int promo=0x7f020006;
-        public static final int promoicon=0x7f020007;
-        public static final int splash=0x7f020008;
-        public static final int whitecard=0x7f020009;
-        public static final int yellowcard=0x7f02000a;
+        public static final int ic_action_help=0x7f020003;
+        public static final int ic_action_refresh=0x7f020004;
+        public static final int ic_action_search=0x7f020005;
+        public static final int ic_action_storage=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int promo=0x7f020008;
+        public static final int promoicon=0x7f020009;
+        public static final int splash=0x7f02000a;
+        public static final int whitecard=0x7f02000b;
+        public static final int yellowcard=0x7f02000c;
     }
     public static final class id {
+        public static final int action_database=0x7f090006;
+        public static final int action_help=0x7f090007;
         public static final int action_search=0x7f090004;
         public static final int action_sync=0x7f090005;
         public static final int answer=0x7f090002;
