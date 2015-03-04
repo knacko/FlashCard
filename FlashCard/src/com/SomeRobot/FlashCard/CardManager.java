@@ -12,34 +12,35 @@ public class CardManager {
 
 	RandomHash rh;
 	DatabaseHandler db;
-	List<CardData> cardData = new ArrayList<CardData>();
+	List<CardData> cardDeck = new ArrayList<CardData>();
+	Random rand = new Random();
 
 	//Holds the current deck of cards
 	public CardManager(DatabaseHandler databaseHandler) {
 		db = databaseHandler;
-		cardData = db.getCardData();
+		cardDeck = db.getCardData();
 		rh = new RandomHash();
 	}
 
 	public CardFragment getCardFragment() {
 
 		//int card = rh.nextInt() % cardData.size();
-		Random rand = new Random();
-	    int card = rand.nextInt(cardData.size());
+		
+	    int cardnum = rand.nextInt(cardDeck.size());
 
-		String question = cardData.get(card).getQuestion();
-		String answer = cardData.get(card).getAnswer();
+	    CardData card = cardDeck.get(cardnum);
 
-		return CardFragment.newInstance(question, answer);
+	   // Log.d("getCardFragment()","Card: " + cardnum +  ", Question: " + card.getQuestion() + ", Answer : " + card.getAnswer());	    
+	    
+		return new CardFragment(card);//CardFragment.newInstance(cardData.get(card));
 
 	}
 	
-
 	public List<CardData> getCardStack() {
 
-		cardData = db.getCardData();
+		cardDeck = db.getCardData();
 
-		return cardData;
+		return cardDeck;
 	}
 
 	public List<CardData> getCardStack(String s) {
@@ -47,8 +48,8 @@ public class CardManager {
 		String[] tags = s.split(",");
 		Log.d("getCardStack(s)",Arrays.toString(tags));
 
-		cardData = db.getCardData(tags);
+		cardDeck = db.getCardData(tags);
 
-		return cardData;
+		return cardDeck;
 	}
 }

@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 
 public class DelayedViewPager extends ViewPager {
 
-	private long minTimeBetweenSwipes = 250; //in ms	
+	private long minTimeBetweenSwipes = 500; //in ms	
 	private long timeOfSettle = 0;
 
 	public DelayedViewPager(Context context) {

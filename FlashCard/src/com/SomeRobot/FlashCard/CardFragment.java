@@ -14,21 +14,23 @@ import android.widget.TextView;
 
 public class CardFragment extends Fragment {
 
-	private static String QUESTION = "question";
-	private static String ANSWER = "answer";
 	boolean isBackVisible = false;
+	CardData data;
 
-	public static final CardFragment newInstance(String question, String answer) {
+	public CardFragment(CardData carddata) {
+		data = carddata;
+	}
+	
+	
+	/*
+	public static final CardFragment newInstance(CardData carddata) {
 
+		
 		CardFragment cf = new CardFragment();
-		Bundle bundle = new Bundle(2);
-		bundle.putString(QUESTION,question);
-		bundle.putString(ANSWER,answer);
-		cf.setArguments(bundle);
-
+		
 		return cf;
 
-	}
+	}*/
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,12 +38,9 @@ public class CardFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_card, container, false);
 		final TextView q = (TextView) view.findViewById(R.id.question);
 		final TextView a = (TextView) view.findViewById(R.id.answer);
-		
-		String question = getArguments().getString(QUESTION);
-		String answer = getArguments().getString(ANSWER);
-		
-		q.setText(question);
-		a.setText(answer);
+				
+		q.setText(data.getQuestion());
+		a.setText(data.getAnswer());
 
 		final AnimatorSet setRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(getActivity(),
 				R.animator.flight_right_out);
@@ -50,12 +49,13 @@ public class CardFragment extends Fragment {
 				R.animator.flight_left_in);
 
 
-		view.setOnTouchListener(new View.OnTouchListener() {
-
+		view.setOnTouchListener(new View.OnTouchListener() {			
+			
 			float x = 0, y = 0;
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+			
 
 				switch(event.getAction()) {
 				case(MotionEvent.ACTION_DOWN):
@@ -68,6 +68,8 @@ public class CardFragment extends Fragment {
 
 					if (x + y < 30 && !setRightOut.isRunning() && !setLeftIn.isRunning()) {
 
+						Log.d("Car onTouchListener","Card flipped");	
+						
 						if(!isBackVisible){
 							setRightOut.setTarget(q);
 							setLeftIn.setTarget(a);  

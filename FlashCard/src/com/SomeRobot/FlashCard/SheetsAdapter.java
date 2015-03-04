@@ -41,7 +41,8 @@ public class SheetsAdapter {
 		for (ListEntry row : list) {   
 
 			try {
-				cardList.add(parseData(row.getPlainTextContent()));
+				String s = row.getPlainTextContent();
+				cardList.add(parseData(s));	
 			} catch (ArrayIndexOutOfBoundsException e) { //throws when row not completely filled
 				continue;
 			}
@@ -52,14 +53,14 @@ public class SheetsAdapter {
 
 	private CardData parseData(String data) throws ArrayIndexOutOfBoundsException {
 
-		Log.d("SheetsAdapter.parseData()","Parsing: " + data);
+		Log.d("SheetsAdapter.parseData()","Raw data for parsing: " + data);
 
 		String workingData[], question = "", answer = "", tags = ",,";
 
 		//question: How many what?, answer: All of them., tags: No, endstring: 5
 
 		workingData = data.split("\\, endstring\\: ");
-		
+		  
 		workingData = workingData[0].split("question\\: ");
 		workingData = workingData[1].split("\\, answer\\: ");
 		question = workingData[0];		

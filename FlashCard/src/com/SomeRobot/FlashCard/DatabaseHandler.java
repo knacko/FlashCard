@@ -86,18 +86,18 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 	public List<CardData> getCardData(String[] tags) {
 
+		if (tags.length == 0) return getCardData();
+		
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		String s = "SELECT * FROM " + TABLE_BIOL218 + " WHERE ";
 
 		Log.d("getCardData(s[])",s);
 		
-		for(int i = 0; i < tags.length; i++) {	
+		for(int i = 0; i < tags.length; i++) {	//TODO: Make it search the questions as well
 			tags[i] = "%" + tags[i].trim() + "%";
-			Log.d("getCardData(s[])","Tags: " + tags[i]);
 			s += KEY_TAGS + " LIKE ?";
 			if (i != tags.length - 1) s+= " AND ";
-			
 		}		
 		
 		Cursor cursor = db.rawQuery(s, tags);

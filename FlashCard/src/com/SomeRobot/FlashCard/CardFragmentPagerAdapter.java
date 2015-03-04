@@ -6,6 +6,7 @@ import java.util.List;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -25,7 +26,14 @@ public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
-		return fragments.get(position);
+		
+		
+		
+		CardFragment cardFragment = (CardFragment) fragments.get(position);
+		
+		Log.d("getItem()","Pos: " + position + ", Question: " + cardFragment.data.getQuestion());
+		
+		return cardFragment;
 	}
 
 	@Override

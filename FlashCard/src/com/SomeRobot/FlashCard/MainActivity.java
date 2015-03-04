@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,7 +59,6 @@ public class MainActivity extends FragmentActivity {
 			Log.d("onCreate()", "Database does not exist.");
 			getDataThenLoadFullCardStack();				
 		}
-
 	}
 
 
@@ -68,9 +69,14 @@ public class MainActivity extends FragmentActivity {
 
 	public void getDataThenLoadFullCardStack() {
 
+		SharedPreferences pref = getApplicationContext().getSharedPreferences(getResources().getString(R.string.app_name), MODE_PRIVATE);
+	    final Editor editor = pref.edit();
+		
+		final int numOfCards = pref.getInt("numOfCards", 0);
+		
 		ViewPager pager = (ViewPager)findViewById(R.id.viewPager);
 		pager.setVisibility(View.GONE);
-
+		
 		final ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "",
 				"Loading Database...", true);		
 
@@ -99,34 +105,25 @@ public class MainActivity extends FragmentActivity {
 				if (sa == null) {
 					displayError();
 				} 
+				
 				else {
+					
+					int cardsInStack = sa.getCardList().size();
+					editor.putInt("numOfCards", cardsInStack);
+					editor.clear();
+				    editor.commit();
+					
+					String toast = "Found " + Math.max(cardsInStack - numOfCards,0) + " new cards.";
+
+					Toast.makeText(getApplicationContext(), toast, 
+							Toast.LENGTH_LONG).show();										
+					
 					loadFullCardStack();
 				}
 			}			
 
 		}.execute();
 	}	
-
-	public void displayError() {
-
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				mContext);
-
-		alertDialogBuilder
-		.setMessage("Database unable to be loaded. Please check internet connection and re-open program.")
-		.setCancelable(false)
-		.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				MainActivity.this.finish();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
-	}
 
 	public void loadFullCardStack() {
 
@@ -259,6 +256,27 @@ public class MainActivity extends FragmentActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+	public void displayError() {
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				mContext);
+
+		alertDialogBuilder
+		.setMessage("Database unable to be loaded. Please check internet connection and re-open program.")
+		.setCancelable(false)
+		.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				MainActivity.this.finish();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
 	
 	public void displaySync() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -299,7 +317,6 @@ public class MainActivity extends FragmentActivity {
 				"<p><big><u>Database</u></big><p>" +
 				"Some mobile browsers do not allow you to interact with Google Spreadsheets. A desktop is best for adding questions.";
 
-		
 		ScrollView sv = new ScrollView(mContext);
 		
 		TextView msg = new TextView(mContext);
